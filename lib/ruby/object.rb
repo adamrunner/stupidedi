@@ -46,10 +46,11 @@ class Object
   #   100.bind{|a| puts "debug: #{a}" }   #=> 100
   #
   # @return self
-  def tap
-    yield self
-    self
-  end
+  # Now part of Ruby
+  # def tap
+  #   yield self
+  #   self
+  # end
 
   # @endgroup
   #############################################################################

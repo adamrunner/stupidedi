@@ -13,19 +13,19 @@ $:.unshift(File.expand_path("..", __FILE__))
 # Monkey patches
 
 #equire "ruby/exception"
-require "ruby/symbol"
+# require "ruby/symbol"
 require "ruby/object"
 require "ruby/module"
 require "ruby/array"
 require "ruby/hash"
-require "ruby/enumerable"
-require "ruby/string"
-require "ruby/blank"
-require "ruby/to_d"
-require "ruby/to_date"
-require "ruby/to_time"
-require "ruby/try"
-require "ruby/instance_exec"
+# require "ruby/enumerable"
+# require "ruby/string"
+# require "ruby/blank"
+# require "ruby/to_d"
+# require "ruby/to_date"
+# require "ruby/to_time"
+# require "ruby/try"
+# require "ruby/instance_exec"
 
 module Stupidedi
   autoload :Builder,      "stupidedi/builder"

@@ -200,6 +200,12 @@ module Stupidedi
               end
 
               # @return [String]
+              def to_x12(truncate = true)
+                x12 = @value.ljust(definition.min_length, " ")
+                truncate ? x12.take(definition.max_length) : x12
+              end
+
+              # @return [String]
               def inspect
                 id = definition.bind do |d|
                   "[#{'% 5s' % d.id}: #{d.name}]".bind do |s|

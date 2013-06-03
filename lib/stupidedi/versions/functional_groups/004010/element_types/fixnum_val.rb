@@ -219,6 +219,21 @@ module Stupidedi
                 (@value * (10 ** definition.precision)).to_i.to_s
               end
 
+              # @return [String]
+              def to_x12(truncate = true)
+                nn   = (@value * (10 ** definition.precision)).to_i
+                sign = (nn < 0) ? "-" : ""
+
+                # Leading zeros must be suppressed unless necessary to satisfy a
+                # minimum length requirement
+                if truncate
+                  sign << nn.abs.to_s.take(definition.max_length).
+                                      rjust(definition.min_length, "0")
+                else
+                  sign << nn.abs.to_s.rjust(definition.min_length, "0")
+                end
+              end
+
               # @group Mathematical Operators
               #################################################################
 

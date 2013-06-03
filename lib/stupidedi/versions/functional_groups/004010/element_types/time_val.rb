@@ -222,6 +222,16 @@ module Stupidedi
                 "#{@hour}#{@minute}#{@second}"
               end
 
+              # @return [String]
+              def to_x12(truncate = true)
+                hh =   @hour.try{|h| "%02d" % h }
+                mm = @minute.try{|m| "%02d" % m }
+
+                x12 = "#{hh}#{mm}"
+
+                truncate ? x12.take(definition.max_length) : x12
+              end
+
               # @return [Boolean]
               def ==(other)
                 eql?(other) or

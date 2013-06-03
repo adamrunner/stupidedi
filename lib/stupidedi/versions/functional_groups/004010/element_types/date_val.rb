@@ -250,6 +250,24 @@ module Stupidedi
               end
 
               # @return [String]
+              def to_x12(truncate = true)
+                x12 =
+                  if definition.max_length < 8
+                    "%02d%02d%02d" % [year % 100, month, day]
+                  else
+                    "%04d%02d%02d" % [year, month, day]
+                  end
+
+                if truncate
+                  # Drop the most significant digits... they are probably bogus?
+                  overage = x12.length - definition.max_length
+                  x12.drop(overage > 0 ? overage : 0)
+                else
+                  x12
+                end
+              end
+
+              # @return [String]
               def to_s
                 '%04d%02d%02d' % [@year, @month, @day]
               end

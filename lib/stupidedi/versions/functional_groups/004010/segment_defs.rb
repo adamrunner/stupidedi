@@ -4,14 +4,23 @@ module Stupidedi
       module FortyTen
         module SegmentDefs
 
+          autoload :ACK,
+            "stupidedi/versions/functional_groups/004010/segment_defs/ACK"
+
           autoload :BEG,
             "stupidedi/versions/functional_groups/004010/segment_defs/BEG"
+
+          autoload :BAK,
+            "stupidedi/versions/functional_groups/004010/segment_defs/BAK"
 
           autoload :CSH,
             "stupidedi/versions/functional_groups/004010/segment_defs/CSH"
 
           autoload :CTT,
             "stupidedi/versions/functional_groups/004010/segment_defs/CTT"
+
+          autoload :CTP,
+            "stupidedi/versions/functional_groups/004010/segment_defs/CTP"
 
           autoload :DTM,
             "stupidedi/versions/functional_groups/004010/segment_defs/DTM"

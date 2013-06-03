@@ -196,6 +196,59 @@ module Stupidedi
                 end.gsub(/\.0$/, "")
               end
 
+              # While the ASC X12 standard supports the usage of exponential
+              # notation, the HIPAA guides prohibit it. In the interest of
+              # simplicity, this method will not output exponential notation,
+              # as there is currently no configuration attribute to indicate
+              # if this is allowed or not -- if this is required in the future,
+              # the best place for it to fit would be in SimpleElementUse
+              #
+              # @return [String]
+              def to_x12(truncate = true)
+                remaining =
+                  if @value.to_i.zero?
+                    definition.max_length
+                  else
+                    definition.max_length - @value.to_i.abs.to_s.length
+                  end
+
+                if remaining <= 0
+                  if truncate
+                    int   = @value.to_i.to_s
+                    sign  = (int < 0) ? "-" : ""
+                    return sign << int.abs.to_s.take(definition.max_length)
+                  else
+                    return @value.to_i.abs
+                  end
+                end
+
+                # Don't exceed the definition's max_precision
+                precision =
+                  if definition.respond_to?(:max_precision) && definition.max_precision.present?
+                    (definition.max_precision < remaining) ?
+                      definition.max_precision : remaining
+                  else
+                    remaining
+                  end
+
+                rounded = @value.round(precision)
+                sign    = (rounded < 0) ? "-" : ""
+
+                # Leading zeros preceeding the decimal point and trailing zeros
+                # following the decimal point must be supressed unless necessary
+                # to satisfy a minimum length requirement or to indicate
+                # precision, respectively.
+                if rounded.zero?
+                  "0" * definition.min_length
+                else
+                  sign << rounded.abs.to_s("F").
+                    gsub(/^0+/, ""). # leading zeros
+                    gsub(/0+$/, ""). # trailing zeros
+                    gsub(/\.$/, ""). # trailing decimal point
+                    rjust(definition.min_length, "0")
+                end
+              end
+
               # @group Mathematical Operators
               #################################################################
 

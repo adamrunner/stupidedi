@@ -1,0 +1,28 @@
+module Stupidedi
+  module Versions
+    module FunctionalGroups
+      module FortyTen
+        module SegmentDefs
+
+          s = Schema
+          e = ElementDefs
+          r = ElementReqs
+
+          TD1 = s::SegmentDef.build(:TD1, "Carrier Details",
+            "Carrier Details (Quantity and Weight)",
+            e::E103.simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
+            e:: E80.simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
+            e:: E23.simple_use(r::Optional,   s::RepeatCount.bounded(1)),
+            e:: E22.simple_use(r::Optional,   s::RepeatCount.bounded(1)),
+            e:: E79.simple_use(r::Optional,   s::RepeatCount.bounded(1)),
+            e::E187.simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
+            e:: E81.simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
+            e::E355.simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
+            e::E183.simple_use(r::Optional,   s::RepeatCount.bounded(1)),
+            e::E355.simple_use(r::Optional,   s::RepeatCount.bounded(1)))
+
+        end
+      end
+    end
+  end
+end

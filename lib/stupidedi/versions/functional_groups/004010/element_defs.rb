@@ -8,36 +8,95 @@ module Stupidedi
           r = ElementReqs
           s = Schema
 
+          E19   = t::AN.new(:E19  , "City Name"                            , 2, 30)
+
+          E22   = t::AN.new(:E22  , "Commodity Code"                       , 1, 30)
+          E23   = t::ID.new(:E23  , "Commodity Code Qualifier "            , 1, 1)
+
+          E26   = t::ID.new(:E26  , "Country Code"                         , 2, 3,
+            s::CodeList.build(
+              "CA" => "Canada",
+              "DE" => "Germany",
+              "FR" => "France",
+              "GB" => "United Kingdon",
+              "JP" => "Japan",
+              "US" => "United States"))
+
           E28   = t::Nn.new(:E28  , "Group Control Number"                 , 1, 9, 0)
 
-          E66  = t::ID.new(:E92 , "Purchase Order Type Code"               , 1, 2,
+          E40   = t::ID.new(:E40  , "Equipment Description Code"             , 2, 2)
+
+          E66   = t::ID.new(:E66  , "Purchase Order Type Code"             , 1, 2,
             s::CodeList.build(
+              "1"  => "D-U-N-S Number, Dun & Bradstreet",
               "15" => "Standard Address Number (SAN)",
+              "2"  => "Standard Carrier Alpha Code (SCAC)",
               "92" => "Assigned by Buyer or Buyer's Agent",
               "ZZ" => "Mutually Defined"))
-          E67  = t::AN.new(:E67 , "Reference Identification"               , 2, 80)
+          E67   = t::AN.new(:E67  , "Reference Identification"             , 2, 80,
+            s::CodeList.build(
+              "ABFS" => "ABF Freight System",
+              "AVRT" => "Averitt Express",
+              "CNWY" => "ConWay Transportation ",
+              "EXLA" => "Estes Express",
+              "FDEG" => "Fed Ex Ground",
+              "FXFE" => "Fed Ex Freight",
+              "RBTW" => "Robinson Transportation Services",
+              "TPQL" => "Transplace",
+              "UPGF" => "UPS Freight",
+              "UPSN" => "UPS Main",
+              # List is not exhaustive
+            ))
 
-          E92  = t::ID.new(:E92 , "Purchase Order Type Code"               , 2, 2,
+          E79   = t::AN.new(:E79  , "Lading Description"                   , 1, 50,
+            s::CodeList.build(
+              "FLR"  => "Floor-loaded shipment",
+              "PLT"  => "Pallet-loaded shipment"))
+          E80   = t::Nn.new(:E80  , "Lading Quantity"                      , 1, 7, 0)
+          E81   = t:: R.new(:E81  , "Weight"                               , 1, 10)
+
+          E87   = t::AN.new(:E87  , "Marks and Numbers"                    , 1, 48)
+          E88   = t::ID.new(:E88  , "Marks and Numbers Qualifier"          , 1, 2,
+            s::CodeList.build(
+              "GM"  => "SSCC-18 and Application Identifier"))
+
+          E92   = t::ID.new(:E92  , "Purchase Order Type Code"             , 2, 2,
             s::CodeList.build(
               "CN" => "Consigned Order",
               "NE" => "New Order",
               "NP" => "New Product Introduction",
               "RO" => "Rush Order"))
+          E93   = t::AN.new(:E93  , "Name"                                 , 1, 60)
 
           E96   = t::Nn.new(:E96  , "Number of Included Segments"          , 1, 10, 0)
           E97   = t::Nn.new(:E97  , "Number of Transaction Sets Included"  , 1, 6, 0)
           E98   = t::ID.new(:E98  , "Entity Identifier Code"               , 2, 3,
             s::CodeList.build(
+              "SF"  => "Ship From",
               "ST"  => "Ship To"))
+
+          E100  = t::ID.new(:E100  , "Currency Code"                        , 3, 3,
+            s::CodeList.build(
+              "USD"  => "United States Dollar"))
+
+          E103  = t::AN.new(:E103 , "Packaging Code"                        , 3, 5,
+            s::CodeList.build(
+              "CTN"  => "Carton",
+              "PLT"  => "Pallet"))
+
+          E116  = t::ID.new(:E116  , "Postal Code"                         , 3, 15)
 
           E124  = t::AN.new(:E124 , "Application Receiver's Code"          , 2, 15)
 
           E127  = t::AN.new(:E127 , "Reference Identification"             , 1, 30)
           E128  = t::ID.new(:E128 , "Reference Identification Qualifier"   , 2, 3,
             s::CodeList.build(
+              "BM"  => "Bill of Lading Number",
+              "CN"  => "Carrier's Tracking/Airbill Number",
               "CR"  => "Customer Reference Number",
               "L1"  => "Letters or Notes",
-              "PD"  => "Promotion/Deal Number"))
+              "PD"  => "Promotion/Deal Number",
+              "SN"  => "Seal Number"))
 
           E142  = t::AN.new(:E142 , "Application's Sender Code"            , 2, 15)
           E143  = t::ID.new(:E143 , "Transaction Set Identifier Number"    , 3, 3,
@@ -54,8 +113,20 @@ module Stupidedi
               "CC" => "Collect",
               "DF" => "Defined by Buyer and Seller",
               "FO" => "FOB Port of Call",
+              "PO" => "Prepaid Only",
               "PP" => "Prepaid (By Seller)",
               "BP" => "Paid by Seller"))
+
+          E156  = t::ID.new(:E156  , "State or Province Code"              , 2, 2)
+
+          E166  = t::AN.new(:E166 , "Address Information"                  , 1, 55)
+
+          E183  = t:: R.new(:E183 , "Volume"                               , 1, 8)
+
+          E187  = t::ID.new(:E187 , "Packaging Code"                       , 1, 2,
+            s::CodeList.build(
+              "B"  => "Billed Weight",
+              "G"  => "Gross Weight"))
 
           E212  = t:: R.new(:E212 , "Unit Price"                           , 1, 17)
 
@@ -80,6 +151,8 @@ module Stupidedi
               "OV" => "On Vessel (Free On Board [FOB] point)"))
 
           E324  = t::AN.new(:E324 , "Purchase Order Number"                , 1, 22)
+
+          E327  = t::AN.new(:E327 , "Change Order Sequence Number"         , 1, 8)
 
           E329  = t::ID.new(:E329 , "Transaction Set Control Number"       , 4, 9)
           E330  = t:: R.new(:E330 , "Quantity Ordered"                     , 1, 20)
@@ -118,18 +191,27 @@ module Stupidedi
           E355  = t::ID.new(:E355 , "Unit or Basis for Measurement Code"   , 2, 2,
             s::CodeList.build(
               "CA" => "Case",
+              "CF" => "Cubic Feet",
+              "CR" => "Cubic Meter",
               "EA" => "Each",
+              "KG" => "Kilogram",
+              "LB" => "Pound",
               "PE" => "Pounds Equivalent",
               "UN" => "Unit"))
 
           E373  = t::DT.new(:E373 , "Date"                                 , 8, 8)
           E374  = t::ID.new(:E374 , "Date/Time Qualifier"                  , 3, 3,
             s::CodeList.build(
+              "011" => "Shipped",
               "063" => "Do Not Deliver After",
               "064" => "Do Not Deliver Before",
               "068" => "Current Schedule Ship"))
 
           E380  = t:: R.new(:E380 , "Quantity"                             , 1, 15)
+
+          E382  = t:: R.new(:E382 , "Number of Units Shipped"              , 1, 10)
+
+          E396  = t::AN.new(:E396 , "Shipment Identification"              , 2, 30)
 
           E455  = t::ID.new(:E455 , "Responsible Agency Code"              , 1, 2,
             s::CodeList.build(
@@ -154,6 +236,13 @@ module Stupidedi
             s::CodeList.build(
               "N" => "No Back Order",
               "Y" => "Back Order if Out of Stock"))
+
+          E623  = t::ID.new(:E623 , "Time Code"                            , 2, 2,
+            s::CodeList.build(
+              "GM" => "Greenwich Mean Time",
+              "UT" => "Universal Time Coordinate"))
+
+          E628  = t::AN.new(:E628 , "Hierarchical ID Number"               , 1, 12)
 
           E639  = t::ID.new(:E639 , "Basis of Unit Price Code"             , 2, 2,
             s::CodeList.build(
@@ -259,13 +348,33 @@ module Stupidedi
               "R7" => "Item Rejected - Reorder Item as a Drop Shipment",
               "R8" => "Item Rejected - Reorder Item as a Surge Order"))
 
-          E687  = t::ID.new(:E687 , "Class of Trade Code "                , 2, 2)
+          E670  = t::ID.new(:E670 , "Change or Response Type Code"         , 2, 2) # There are 29 codes used here. I do not know them yet.
+          E671  = t:: R.new(:E671 , "Quantity Left to Receive"             , 1, 9)
+
+          E687  = t::ID.new(:E687 , "Class of Trade Code "                 , 2, 2)
+
+          E734  = t::AN.new(:E734 , "Hierarchical Parent ID Number"        , 1, 12)
+          E735  = t::ID.new(:E735 , "Hierarchical Level Code"              , 1, 2,
+            s::CodeList.build(
+              "I" => "Item",
+              "O" => "Order",
+              "P" => "Pack",
+              "S" => "Shipment"))
+          E736  = t::ID.new(:E736 , "Hierarchical Level Code"              , 1, 1,
+            s::CodeList.build(
+              "1" => "Additional Subordinate HL Data Segment in This Hierarchical Structure"))
 
           E753  = t::ID.new(:E753 , "Packaging Characteristic Code"        , 1, 5,
             s::CodeList.build(
               "CS" => "Container Shape"))
 
           E933  = t::AN.new(:E933 , "Free-form Message Text"               , 1, 264)
+
+          E1005 = t::ID.new(:E1005 , "Hierarchical Structure Code"         , 4, 4,
+            s::CodeList.build(
+              "0001" => "Shipment, Order, Packaging, Item",
+              "0003" => "Shipment, Packaging, Order, Item",
+              "0004" => "Shipment, Order, Item"))
 
           C001 = Schema::CompositeElementDef.build(:C001,
             "Composite Unit of Measure",

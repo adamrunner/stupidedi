@@ -5,8 +5,8 @@ module Stupidedi
         module TransactionSetDefs
 
           # Ship Notice/Manifest
-          autoload :HS856, # Ship Notice/Manifest
-            "stupidedi/versions/functional_groups/004010/transaction_set_defs/HS856"
+          autoload :SH856, # Ship Notice/Manifest
+            "stupidedi/versions/functional_groups/004010/transaction_set_defs/SH856"
 
           # Purchase Order Change Request
           autoload :PC860, # Purchase Order Change Request

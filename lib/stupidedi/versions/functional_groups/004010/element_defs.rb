@@ -348,7 +348,20 @@ module Stupidedi
               "R7" => "Item Rejected - Reorder Item as a Drop Shipment",
               "R8" => "Item Rejected - Reorder Item as a Surge Order"))
 
-          E670  = t::ID.new(:E670 , "Change or Response Type Code"         , 2, 2) # There are 29 codes used here. I do not know them yet.
+          # This info comes from the good folks at Amazon.com
+          E670  = t::ID.new(:E670 , "Change or Response Type Code"         , 2, 2,
+            s::CodeList.build(
+              "AI" => "Add Additional Item(s)",
+              "CA" => "Changes To Line Items",
+              "CF" => "Cancel Previously Transmitted Purchase Order",
+              "CT" => "Change of Dates",
+              "DI" => "Delete Item(s)",
+              "NC" => "Concurrent Item (No Change)",
+              "PC" => "Price Change",
+              "PQ" => "Unit Price/Quantity Change",
+              "QD" => "Quantity Decrease",
+              "QI" => "Quantity Increase"))
+
           E671  = t:: R.new(:E671 , "Quantity Left to Receive"             , 1, 9)
 
           E687  = t::ID.new(:E687 , "Class of Trade Code "                 , 2, 2)

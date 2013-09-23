@@ -12,6 +12,10 @@ module Stupidedi
           autoload :PC860, # Purchase Order Change Request
             "stupidedi/versions/functional_groups/004010/transaction_set_defs/PC860"
 
+          # Purchase Order Change Achknowledgement
+          autoload :CA865, # Seller Initiated
+            "stupidedi/versions/functional_groups/004010/transaction_set_defs/CA865"
+
           # Purchase Order
           autoload :PO850, # Purchase Order
             "stupidedi/versions/functional_groups/004010/transaction_set_defs/PO850"

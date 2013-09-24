@@ -220,7 +220,10 @@ module Stupidedi
           E479  = t::ID.new(:E479 , "Functional Identifier Code"           , 2, 2,
             s::CodeList.build(
               "PO" => "Purchase Order (850)",
-              "PR" => "Purchase Order Acknowledgement (855)"))
+              "PR" => "Purchase Order Acknowledgement (855)",
+              "SH" => "Ship Notice/Manifest (856)",
+              "PC" => "Purchase Order Change Request (860)",
+              "CA" => "Purchase Order Change Achknowledgement (865)"))
 
           E480  = t::AN.new(:E480 , "Version / Release / Identifier Code"  , 1, 12,
             s::CodeList.external("881"))

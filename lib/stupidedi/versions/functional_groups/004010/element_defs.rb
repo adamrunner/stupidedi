@@ -105,7 +105,10 @@ module Stupidedi
               # "835" => "Health Care Claim Payment/Advice",
               # "837" => "Health Care Claim",
               "850" => "Purchase Order",
-              "855" => "Purchase Order Acknowledge"))
+              "855" => "Purchase Order Acknowledge",
+              "856" => "Ship Notice/Manifest",
+              "860" => "Purchase Order Change Request",
+              "865" => "Purchase Order Change Achknowledgement"))
 
           E146  = t::ID.new(:E146 , "Shipment Method of Payment"           , 2, 2,
             s::CodeList.build(

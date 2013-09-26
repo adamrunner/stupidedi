@@ -86,7 +86,6 @@ module Stupidedi
             # use the {StringVal.empty} constructor.
             #
             class Empty < StringVal
-
               def valid?
                 true
               end
@@ -110,6 +109,11 @@ module Stupidedi
                 end
 
                 ansi.element("AN.empty#{id}")
+              end
+
+              # @return [String]
+              def to_x12
+                ""
               end
 
               # @return [String]

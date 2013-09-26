@@ -115,6 +115,11 @@ module Stupidedi
               end
 
               # @return [String]
+              def to_x12
+                ""
+              end
+
+              # @return [String]
               def to_s
                 ""
               end

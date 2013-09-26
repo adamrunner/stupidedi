@@ -10,8 +10,8 @@ module Stupidedi
 
           ST = s::SegmentDef.build(:ST, "Transaction Set Header",
             "To indicate the start of a transaction set and assign a control number",
-            e::E143 .simple_use(r::Mandatory,  s::RepeatCount.bounded(1)),
-            e::E329 .simple_use(r::Mandatory,  s::RepeatCount.bounded(1)))
+            e::E143.simple_use(r::Mandatory, s::RepeatCount.bounded(1)),
+            e::E329.simple_use(r::Mandatory, s::RepeatCount.bounded(1)))
 
         end
       end

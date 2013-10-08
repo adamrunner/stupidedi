@@ -6,19 +6,35 @@ module Stupidedi
 
           #
           class R < SimpleElementDef
+
+            # @return [Integer]
+            attr_reader :max_precision
+
+            def initialize(id, name, min_length, max_length, max_precision = nil, description = nil, parent = nil)
+              super(id, name, min_length, max_length, description, parent)
+
+              if max_precision.try(:>, max_length)
+                raise ArgumentError,
+                  "max_precision cannot be greater than max_length"
+              end
+
+              @max_precision = max_precision
+            end
+
             def companion
               FloatVal
             end
           end
 
           #
-          # @see X222.pdf A.1.3.1.2 Decimal
+          # @see X222.pdf B.1.1.3.1.2 Decimal
           #
           class FloatVal < Values::SimpleElementVal
           # PATTERN = /\A[+-]?            (?# optional leading sign            )
           #            (?:
           #              (?:\d+\.?\d*)  | (?# whole with optional decimal or ..)
           #              (?:\d*?\.?\d+) ) (?# optional whole with decimal      )
+          #            (?:E[+-]?\d+)?     (?# optional exponent                )
           #           \Z/ix
 
             def numeric?
@@ -33,9 +49,6 @@ module Stupidedi
               false
             end
 
-            #
-            #
-            #
             class Invalid < FloatVal
 
               # @return [Object]
@@ -52,6 +65,11 @@ module Stupidedi
 
               def empty?
                 false
+              end
+
+              # @return [FloatVal]
+              def map
+                FloatVal.value(yield(nil), usage, position)
               end
 
               # @return [String]
@@ -76,10 +94,14 @@ module Stupidedi
                 ""
               end
 
+              # @return [String]
+              def to_x12(truncate = true)
+                ""
+              end
+
               # @return [Boolean]
               def ==(other)
-                eql?(other) or
-                  (other.is_a?(Invalid) and @value == other.value)
+                eql?(other)
               end
             end
 
@@ -95,6 +117,11 @@ module Stupidedi
 
               def empty?
                 true
+              end
+
+              # @return [FloatVal]
+              def map
+                FloatVal.value(yield(nil), usage, position)
               end
 
               # @return [String]
@@ -124,9 +151,14 @@ module Stupidedi
                 ""
               end
 
+              # @return [String]
+              def to_x12(truncate = true)
+                ""
+              end
+
               # @return [Boolean]
               def ==(other)
-                other.is_a?(Empty)
+                other.is_a?(Empty) or other.nil?
               end
             end
 
@@ -137,10 +169,25 @@ module Stupidedi
             class NonEmpty < FloatVal
               include Comparable
 
+              # @group Mathematical Operators
+              #################################################################
+
+              extend Operators::Binary
+              binary_operators(:+, :-, :*, :/, :%, :coerce => :to_d)
+
+              extend Operators::Relational
+              relational_operators(:==, :<=>, :coerce => :to_d)
+
+              extend Operators::Unary
+              unary_operators(:abs, :-@, :+@)
+
+              # @endgroup
+              #################################################################
+
               # @return [BigDecimal]
               attr_reader :value
 
-              delegate :to_i, :to_d, :to_f, :to => :@value
+              delegate :to_i, :to_d, :to_f, :to_r, :to_c, :to => :@value
 
               def initialize(value, usage, position)
                 @value = value
@@ -155,6 +202,17 @@ module Stupidedi
                   changes.fetch(:position, position)
               end
 
+              def coerce(other)
+                # self', other' = other.coerce(self)
+                # self' * other'
+                if other.respond_to?(:to_d)
+                  return copy(:value => other.to_d), self
+                else
+                  raise TypeError,
+                    "cannot coerce FloatVal to #{other.class}"
+                end
+              end
+
               def valid?
                 # False for NaN and +/- Infinity
                 @value.finite?
@@ -162,17 +220,6 @@ module Stupidedi
 
               def empty?
                 false
-              end
-
-              # @return [Array(NonEmpty, Numeric)]
-              def coerce(other)
-                if other.respond_to?(:to_d)
-                  # Re-evaluate other.call(self) as self.op(other.to_d)
-                  return self, other.to_d
-                else
-                  # Fail, other.call(self) is still other.call(self)
-                  raise TypeError, "#{other.class} can't be coerced into #{NonEmpty}"
-                end
               end
 
               # @return [String]
@@ -194,11 +241,11 @@ module Stupidedi
 
               # @return [String]
               def to_s
-                if false #definition.precision.present?
-                  @value.round(definition.precision).to_s("F")
+                if definition.max_precision.present?
+                  @value.round(definition.max_precision).to_s("F")
                 else
                   @value.to_s("F")
-                end.gsub(/\.0$/, "")
+                end
               end
 
               # While the ASC X12 standard supports the usage of exponential
@@ -254,64 +301,57 @@ module Stupidedi
                 end
               end
 
-              # @group Mathematical Operators
-              #################################################################
 
-              # @return [NonEmpty]
-              def /(other)
-                copy(:value => (@value / other).to_d)
-              end
+                if remaining <= 0
+                  if truncate
+                    int   = @value.to_i.to_s
+                    sign  = (int < 0) ? "-" : ""
+                    return sign << int.abs.to_s.take(definition.max_length)
+                  else
+                    return @value.to_i.abs
+                  end
+                end
 
-              # @return [NonEmpty]
-              def +(other)
-                copy(:value => (@value + other).to_d)
-              end
+                # Don't exceed the definition's max_precision
+                precision =
+                  if definition.max_precision.present?
+                    (definition.max_precision < remaining) ?
+                      definition.max_precision : remaining
+                  else
+                    remaining
+                  end
 
-              # @return [NonEmpty]
-              def -(other)
-                copy(:value => (@value - other).to_d)
-              end
+                rounded = @value.round(precision)
+                sign    = (rounded < 0) ? "-" : ""
 
-              # @return [NonEmpty]
-              def **(other)
-                copy(:value => (@value ** other).to_d)
-              end
-
-              # @return [NonEmpty]
-              def *(other)
-                copy(:value => (@value * other).to_d)
-              end
-
-              # @return [NonEmpty]
-              def %(other)
-                copy(:value => (@value % other).to_d)
-              end
-
-              # @return [NonEmpty]
-              def -@
-                copy(:value => -@value)
-              end
-
-              # @return [NonEmpty]
-              def +@
-                self
-              end
-
-              # @return [NonEmpty]
-              def abs
-                copy(:value => @value.abs)
-              end
-
-              # @return [-1, 0, +1]
-              def <=>(other)
-                if other.respond_to?(:value)
-                  @value <=> other.value
+                # Leading zeros preceeding the decimal point and trailing zeros
+                # following the decimal point must be supressed unless necessary
+                # to satisfy a minimum length requirement or to indicate
+                # precision, respectively.
+                if rounded.zero?
+                  "0" * definition.min_length
                 else
-                  @value <=> other
+                  sign << rounded.abs.to_s("F").
+                    gsub(/^0+/, ""). # leading zeros
+                    gsub(/0+$/, ""). # trailing zeros
+                    gsub(/\.$/, ""). # trailing decimal point
+                    rjust(definition.min_length, "0")
                 end
               end
 
-              # @endgroup
+              def too_long?
+                # We can truncate the fractional portion as much as needed, so
+                # the only concern we have about length is regarding the digits
+                # to the left of the decimal place.
+
+                # The length of a decimal type does not include an optional sign
+                definition.max_length < @value.to_i.abs.to_s.length
+              end
+
+              # @return [FloatVal]
+              def map
+                FloatVal.value(yield(@value), usage, position)
+              end
             end
 
           end

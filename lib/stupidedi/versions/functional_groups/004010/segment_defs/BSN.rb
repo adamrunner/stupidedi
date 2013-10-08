@@ -8,8 +8,8 @@ module Stupidedi
           e = ElementDefs
           r = ElementReqs
 
-          BSN = s::SegmentDef.build(:BSN, "Beginning Segment",
-            "Beginning Segment for Ship Notice",
+          BSN = s::SegmentDef.build(:BSN, "Beginning Segment for Ship Notice",
+            "To transmit identifying numbers, dates, and other basic data relating to the transaction set",
             e:: E353.simple_use(r::Mandatory, s::RepeatCount.bounded(1)),
             e:: E396.simple_use(r::Mandatory, s::RepeatCount.bounded(1)),
             e:: E373.simple_use(r::Mandatory, s::RepeatCount.bounded(1)),

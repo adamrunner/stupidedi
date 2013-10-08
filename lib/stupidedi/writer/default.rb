@@ -35,10 +35,11 @@ module Stupidedi
           segment(value, separators, out)
         else
           if value.interchange?
-            separators = value.separators.merge(@separators)
+            value      = value.replace_separators(@separators)
+            separators = value.separators#merge(@separators)
 
             raise Exceptions::OutputError,
-              "separators.segment cannot be blank" if separators.segment.empty?
+              "separators.segment cannot be blank" if separators.segment.blank?
 
             raise Exceptions::OutputError,
               "separators.element cannot be blank" if separators.element.blank?
@@ -113,7 +114,7 @@ module Stupidedi
 
           occurrences.tail.each do |o|
             out << separators.repetition
-            element(occurrences.head, separators, out)
+            element(o, separators, out)
           end
         end
       end

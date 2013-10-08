@@ -105,7 +105,8 @@ module Stupidedi
               # "835" => "Health Care Claim Payment/Advice",
               # "837" => "Health Care Claim",
               "850" => "Purchase Order",
-              "855" => "Purchase Order Acknowledge"))
+              "855" => "Purchase Order Acknowledge",
+              "856" => "Advance Shipment Notification"))
 
           E146  = t::ID.new(:E146 , "Shipment Method of Payment"           , 2, 2,
             s::CodeList.build(
@@ -220,7 +221,8 @@ module Stupidedi
           E479  = t::ID.new(:E479 , "Functional Identifier Code"           , 2, 2,
             s::CodeList.build(
               "PO" => "Purchase Order (850)",
-              "PR" => "Purchase Order Acknowledgement (855)"))
+              "PR" => "Purchase Order Acknowledgement (855)",
+              "SH" => "Advance Shipment Notification (856)"))
 
           E480  = t::AN.new(:E480 , "Version / Release / Identifier Code"  , 1, 12,
             s::CodeList.external("881"))

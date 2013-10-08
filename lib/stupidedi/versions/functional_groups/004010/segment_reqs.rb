@@ -8,8 +8,9 @@ module Stupidedi
         # @see X222.pdf A.1.3.12.6 Data Segment Requirement Designator
         #
         module SegmentReqs
-          Mandatory = Schema::SegmentReq.new(true,  false, "M")
-          Optional  = Schema::SegmentReq.new(false, false, "O")
+          Mandatory   = Schema::SegmentReq.new(true,  false, "M")
+          Optional    = Schema::SegmentReq.new(false, false, "O")
+          Conditional = Schema::ElementReq.new(false, false, "C")
         end
 
       end

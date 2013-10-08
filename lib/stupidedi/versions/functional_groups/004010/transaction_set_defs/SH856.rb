@@ -8,8 +8,8 @@ module Stupidedi
           r = SegmentReqs
           s = SegmentDefs
 
-          PC860 = d::TransactionSetDef.build("SH", "856",
-            "Purchase Order Change Request - Buyer Initiated",
+          SH856 = d::TransactionSetDef.build("SH", "856",
+            "Ship Notice/Manifest",
 
             d::TableDef.header("Table 1 - Header",
               s:: ST.use(  100, r::Mandatory, d::RepeatCount.bounded(1)),
@@ -39,12 +39,6 @@ module Stupidedi
                 d::LoopDef.build("N1", d::RepeatCount.bounded(200),
                   s:: N1.use( 5100, r::Mandatory, d::RepeatCount.bounded(1)),
                 ),
-
-                d::LoopDef.build("V1", d::RepeatCount.unbounded,
-                  s:: V1.use( 7000, r::Optional, d::RepeatCount.bounded(1)),
-                  s:: R4.use( 7100, r::Optional, d::RepeatCount.unbounded),
-                  s::DTM.use( 7200, r::Optional, d::RepeatCount.unbounded),
-                ),
               ),
 
               d::LoopDef.build("HL", d::RepeatCount.bounded(200_000),
@@ -52,12 +46,12 @@ module Stupidedi
                 s::PRF.use( 7800, r::Mandatory, d::RepeatCount.bounded(1)),
               ),
 
-              d::LoopDef.build("HL", d::RepeatCount.bounded(200_000),
-                s:: HL.use(13400, r::Conditional, d::RepeatCount.bounded(1)),
-                s::TDI.use(14400, r::Conditional, d::RepeatCount.bounded(20)),
-                s::REF.use(15000, r::Conditional, d::RepeatCount.unbounded),
-                s::MAN.use(16700, r::Conditional, d::RepeatCount.unbounded),
-              ),
+              # d::LoopDef.build("HL", d::RepeatCount.bounded(200_000),
+              #   s:: HL.use(13400, r::Conditional, d::RepeatCount.bounded(1)),
+              #   s::TD1.use(14400, r::Conditional, d::RepeatCount.bounded(20)),
+              #   s::REF.use(15000, r::Conditional, d::RepeatCount.unbounded),
+              #   s::MAN.use(16700, r::Conditional, d::RepeatCount.unbounded),
+              # ),
 
               d::LoopDef.build("HL", d::RepeatCount.bounded(200_000),
                 s:: HL.use(19500, r::Mandatory, d::RepeatCount.bounded(1)),

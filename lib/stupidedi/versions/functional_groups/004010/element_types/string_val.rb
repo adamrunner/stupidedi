@@ -112,6 +112,10 @@ module Stupidedi
                 ansi.element("AN.empty#{id}")
               end
 
+              def to_x12
+                ""
+              end
+
               # @return [String]
               def to_s
                 ""

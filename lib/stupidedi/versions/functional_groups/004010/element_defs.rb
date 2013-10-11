@@ -33,20 +33,21 @@ module Stupidedi
               "2"  => "Standard Carrier Alpha Code (SCAC)",
               "92" => "Assigned by Buyer or Buyer's Agent",
               "ZZ" => "Mutually Defined"))
-          E67   = t::AN.new(:E67  , "Reference Identification"             , 2, 80,
-            s::CodeList.build(
-              "ABFS" => "ABF Freight System",
-              "AVRT" => "Averitt Express",
-              "CNWY" => "ConWay Transportation ",
-              "EXLA" => "Estes Express",
-              "FDEG" => "Fed Ex Ground",
-              "FXFE" => "Fed Ex Freight",
-              "RBTW" => "Robinson Transportation Services",
-              "TPQL" => "Transplace",
-              "UPGF" => "UPS Freight",
-              "UPSN" => "UPS Main",
-              # List is not exhaustive
-            ))
+          E67   = t::AN.new(:E67  , "Reference Identification"             , 2, 80
+            # s::CodeList.build(
+            #   "ABFS" => "ABF Freight System",
+            #   "AVRT" => "Averitt Express",
+            #   "CNWY" => "ConWay Transportation ",
+            #   "EXLA" => "Estes Express",
+            #   "FDEG" => "Fed Ex Ground",
+            #   "FXFE" => "Fed Ex Freight",
+            #   "RBTW" => "Robinson Transportation Services",
+            #   "TPQL" => "Transplace",
+            #   "UPGF" => "UPS Freight",
+            #   "UPSN" => "UPS Main",
+            #   # List is not exhaustive
+            # )
+            )
 
           E79   = t::AN.new(:E79  , "Lading Description"                   , 1, 50,
             s::CodeList.build(
@@ -204,6 +205,7 @@ module Stupidedi
           E374  = t::ID.new(:E374 , "Date/Time Qualifier"                  , 3, 3,
             s::CodeList.build(
               "011" => "Shipped",
+              "017" => "Estimated Delivery",
               "063" => "Do Not Deliver After",
               "064" => "Do Not Deliver Before",
               "068" => "Current Schedule Ship"))

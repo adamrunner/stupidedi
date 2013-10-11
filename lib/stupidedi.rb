@@ -29,6 +29,7 @@ require "ruby/string"
 
 module Stupidedi
   autoload :Builder,      "stupidedi/builder"
+  autoload :Contrib,      "stupidedi/contrib"
   autoload :Config,       "stupidedi/config"
   autoload :Color,        "stupidedi/color"
   autoload :Versions,     "stupidedi/versions"

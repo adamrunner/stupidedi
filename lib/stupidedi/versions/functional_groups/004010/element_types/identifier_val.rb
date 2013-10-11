@@ -152,7 +152,9 @@ module Stupidedi
               def to_s
                 ""
               end
-
+              def to_x12
+                ""
+              end
               # @return [Boolean]
               def ==(other)
                 other.is_a?(Empty)

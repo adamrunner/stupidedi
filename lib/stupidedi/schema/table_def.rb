@@ -53,7 +53,7 @@ module Stupidedi
       def entry_segment_uses
         uses = []
         uses.concat(@header_segment_uses)
-        uses.concat(@loop_defs.map{|l| l.entry_segment_use })
+        uses.concat(@loop_defs.map{|l|l.entry_segment_use })
         uses.concat(@trailer_segment_uses)
       end
 
@@ -121,7 +121,7 @@ module Stupidedi
       def detail(id, *children)
         header, children   = children.split_when{|x| x.is_a?(LoopDef) }
         loop_defs, trailer = children.split_when{|x| x.is_a?(SegmentUse) }
-        new(id, 2, true, header, loop_defs, trailer, nil)
+        new(id, 2, false, header, loop_defs, trailer, nil)
       end
 
       # @return [TableDef]

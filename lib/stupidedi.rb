@@ -1,6 +1,7 @@
 require "bigdecimal"
 require "time"
 require "date"
+require "set"
 
 begin
   require "term/ansicolor" if $stdout.tty?
@@ -31,6 +32,7 @@ module Stupidedi
   autoload :Builder,      "stupidedi/builder"
   autoload :Contrib,      "stupidedi/contrib"
   autoload :Config,       "stupidedi/config"
+  autoload :Contrib,      "stupidedi/contrib"
   autoload :Color,        "stupidedi/color"
   autoload :Versions,     "stupidedi/versions"
   autoload :Editor,       "stupidedi/editor"
